@@ -1,0 +1,39 @@
+<?php
+
+namespace App\Http\Traits;
+
+use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\DB;
+use Symfony\Component\HttpFoundation\Response as ResponseAlias;
+
+trait Helper
+{   
+    protected function bind_to_template($replacements, $template)
+    {
+    return preg_replace_callback('/{{(.+?)}}/', function ($matches) use ($replacements) {
+        return array_key_exists($matches[1], $replacements) ? $replacements[$matches[1]] : null;
+        // return $replacements[$matches[1]] ? $replacements[$matches[1]]:null;
+    }, $template);
+    }
+    protected function pick($table, $field, $cond, $val)
+        {
+        $tt = NULL;
+        if ($cond == null) {
+            $query = DB::table($table)
+            ->select(DB::raw($field . ' AS name'));
+        } else {
+            $query = DB::table($table)
+            ->select(DB::raw($field . ' AS name'));
+            $query->where($cond, $val);
+        }
+        $data = $query->get();
+        foreach ($data as $index => $da) {
+            if ($tt == null) {
+            $tt = $da->name;
+            } else {
+            $tt = $tt . '<BR>' . $da->name;
+            }
+        }
+        return $tt;
+        }
+}

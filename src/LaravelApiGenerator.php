@@ -29,6 +29,15 @@ class LaravelApiGenerator
         if (! file_exists(base_path('app/Http/Resources'))) {
             mkdir(base_path('app/Http/Resources'));
         }
+        if (! file_exists(base_path('app/Http/Traits'))) {
+            mkdir(base_path('app/Http/Traits'));
+        }
+        if (! file_exists(base_path('app/Http/Requests'))) {
+            mkdir(base_path('app/Http/Requests'));
+        }
+        if (! file_exists(base_path('app/Http/Constants'))) {
+            mkdir(base_path('app/Http/Constants'));
+        }
     }
 
     public function generateController()
