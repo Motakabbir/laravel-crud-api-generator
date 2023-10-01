@@ -5,7 +5,7 @@ namespace Dolar\LaravelApiGenerator;
 use Illuminate\Support\Facades\Facade;
 
 /**
- * @see \Bhavingajjar\LaravelApiGenerator\LaravelApiGenerator
+ * @see \Dolar\LaravelApiGenerator\LaravelApiGenerator
  */
 class LaravelApiGeneratorFacade extends Facade
 {

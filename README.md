@@ -1,9 +1,9 @@
 # Laravel API Generator With Resources
 
-[![Latest Version on Packagist](https://img.shields.io/packagist/v/bhavingajjar/laravel-api-generator.svg?style=flat-square)](https://packagist.org/packages/bhavingajjar/laravel-api-generator)
-[![Build Status](https://img.shields.io/travis/bhavingajjar/laravel-api-generator/master.svg?style=flat-square)](https://travis-ci.org/bhavingajjar/laravel-api-generator)
-[![Quality Score](https://img.shields.io/scrutinizer/g/bhavingajjar/laravel-api-generator.svg?style=flat-square)](https://scrutinizer-ci.com/g/bhavingajjar/laravel-api-generator)
-[![Total Downloads](https://img.shields.io/packagist/dt/bhavingajjar/laravel-api-generator.svg?style=flat-square)](https://packagist.org/packages/bhavingajjar/laravel-api-generator)
+[![Latest Version on Packagist](https://img.shields.io/packagist/v/dolar/laravel-api-generator.svg?style=flat-square)](https://packagist.org/packages/dolar/laravel-api-generator)
+[![Build Status](https://img.shields.io/travis/dolar/laravel-api-generator/master.svg?style=flat-square)](https://travis-ci.org/dolar/laravel-api-generator)
+[![Quality Score](https://img.shields.io/scrutinizer/g/dolar/laravel-api-generator.svg?style=flat-square)](https://scrutinizer-ci.com/g/dolar/laravel-api-generator)
+[![Total Downloads](https://img.shields.io/packagist/dt/dolar/laravel-api-generator.svg?style=flat-square)](https://packagist.org/packages/dolar/laravel-api-generator)
 [![StyleCI](https://github.styleci.io/repos/218828115/shield?branch=master)](https://github.styleci.io/repos/218828115)
 
 This package is used to generate laravel api with Resources

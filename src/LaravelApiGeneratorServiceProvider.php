@@ -2,7 +2,7 @@
 
 namespace Dolar\LaravelApiGenerator;
 
-use Bhavingajjar\LaravelApiGenerator\Commands\GenerateApi;
+use Dolar\LaravelApiGenerator\Commands\GenerateApi;
 use Illuminate\Support\ServiceProvider;
 
 class LaravelApiGeneratorServiceProvider extends ServiceProvider
@@ -60,9 +60,9 @@ class LaravelApiGeneratorServiceProvider extends ServiceProvider
             return new LaravelApiGenerator($model);
         });
 
-        $this->app['router']->middleware('ApiHeaderInject', 'Bhavingajjar\LaravelApiGenerator\Middleware\ApiHeaderInject');
+        $this->app['router']->middleware('ApiHeaderInject', 'Dolar\LaravelApiGenerator\Middleware\ApiHeaderInject');
 
-        $this->app['router']->aliasMiddleware('ApiHeaderInject', \Bhavingajjar\LaravelApiGenerator\Middleware\ApiHeaderInject::class);
-        $this->app['router']->pushMiddlewareToGroup('api', \Bhavingajjar\LaravelApiGenerator\Middleware\ApiHeaderInject::class);
+        $this->app['router']->aliasMiddleware('ApiHeaderInject', \Dolar\LaravelApiGenerator\Middleware\ApiHeaderInject::class);
+        $this->app['router']->pushMiddlewareToGroup('api', \Dolar\LaravelApiGenerator\Middleware\ApiHeaderInject::class);
     }
 }
