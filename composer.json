@@ -7,7 +7,7 @@
         "laravel-crud-api-resources",
         "api generator"
     ],
-    "homepage": "https://github.com/dolar/laravel-crud-api-generator",
+    "homepage": "https://github.com/Motakabbir/laravel-crud-api-generator",
     "license": "MIT",
     "type": "library",
     "authors": [
