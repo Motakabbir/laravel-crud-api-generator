@@ -1,0 +1,55 @@
+{
+    "name": "dolar/laravel-crud-api-generator",
+    "description": "a laravel rest api generator with API Resources",
+    "keywords": [
+        "dolar",
+        "laravel-crud-api-generator",
+        "laravel-crud-api-resources",
+        "api generator"
+    ],
+    "homepage": "https://github.com/dolar/laravel-crud-api-generator",
+    "license": "MIT",
+    "type": "library",
+    "authors": [
+        {
+            "name": "Motakabbir Morshed",
+            "email": "morsheddolar1990@gmail.com",
+            "role": "Developer"
+        }
+    ],
+    "require": {
+        "php": "^7.2|^8.0|^8.1",
+        "illuminate/support": "5.8.*|^6.0|^7.0|^8.0|^9.0|^10.0"
+    },
+    "require-dev": {
+        "orchestra/testbench": "3.8.*",
+        "phpunit/phpunit": "^9.5.10"
+    },
+    "autoload": {
+        "psr-4": {
+            "Dolar\\LaravelApiGenerator\\": "src"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Dolar\\LaravelApiGenerator\\Tests\\": "tests"
+        }
+    },
+    "scripts": {
+        "test": "vendor/bin/phpunit",
+        "test-coverage": "vendor/bin/phpunit --coverage-html coverage"
+    },
+    "config": {
+        "sort-packages": true
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Dolar\\LaravelApiGenerator\\LaravelApiGeneratorServiceProvider"
+            ],
+            "aliases": {
+                "LaravelApiGenerator": "Dolar\\LaravelApiGenerator\\LaravelApiGeneratorFacade"
+            }
+        }
+    }
+}
