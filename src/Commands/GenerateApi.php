@@ -48,6 +48,22 @@ class GenerateApi extends Command
         }
 
         $api = new LaravelApiGenerator($this->option('model'));
+
+
+        $resource = $api->generateStoreRequest();
+        if ($resource) {
+            $this->info('Store Request Generated SuccessFully!');
+        } else {
+            $this->error('Store Request Already Exists!');
+        }
+
+        $resource = $api->generateUpdateRequest();
+        if ($resource) {
+            $this->info('Update Request Generated SuccessFully!');
+        } else {
+            $this->error('Update Request Already Exists!');
+        }
+
         $controller = $api->generateController();
         if ($controller) {
             $this->info('Controller Generated SuccessFully!');

@@ -19,6 +19,7 @@ class LaravelApiGenerator
     public function generate()
     {
         self::directoryCreate();
+        self::generateBasicFiles()();
     }
 
     public function directoryCreate()
@@ -38,6 +39,57 @@ class LaravelApiGenerator
         if (! file_exists(base_path('app/Http/Constants'))) {
             mkdir(base_path('app/Http/Constants'));
         }
+    }
+
+    public function generateBasicFiles()
+    {
+        $this->result = false;
+        //Constants generate
+        if (! file_exists(base_path('app/Constants/AuthConstants.php'))) {
+            $template = self::getStubContents('AuthConstants.stub');
+            $template = '';
+            file_put_contents(base_path('app/Constants/AuthConstants.php'), $template);
+            $this->result = true;
+        }
+        if (! file_exists(base_path('app/Constants/Constants.php'))) {
+            $template = self::getStubContents('Constants.stub');
+            $template = '';
+            file_put_contents(base_path('app/Constants/Constants.php'), $template);
+            $this->result = true;
+        }
+        if (! file_exists(base_path('app/Constants/ValidationConstants.php'))) {
+            $template = self::getStubContents('ValidationConstants.stub');
+            $template = '';
+            file_put_contents(base_path('app/Constants/ValidationConstants.php'), $template);
+            $this->result = true;
+        }
+        //Traits generate
+        if (! file_exists(base_path('app/Http/Traits/Access.php'))) {
+            $template = self::getStubContents('Access.stub');
+            $template = '';
+            file_put_contents(base_path('app/Http/Traits/Access.php'), $template);
+            $this->result = true;
+        }
+        if (! file_exists(base_path('app/Http/Traits/Helper.php'))) {
+            $template = self::getStubContents('Helper.stub');
+            $template = '';
+            file_put_contents(base_path('app/Http/Traits/Helper.php'), $template);
+            $this->result = true;
+        }
+        if (! file_exists(base_path('app/Http/Traits/HttpResponses.php'))) {
+            $template = self::getStubContents('HttpResponses.stub');
+            $template = '';
+            file_put_contents(base_path('app/Http/Traits/HttpResponses.php'), $template);
+            $this->result = true;
+        }
+        //Resources generate
+        if (! file_exists(base_path('app/Http/Resources/resource.php'))) {
+            $template = self::getStubContents('resource.stub');
+            $template = '';
+            file_put_contents(base_path('app/Http/Resources/resource.php'), $template);
+            $this->result = true;
+        }
+        return $this->result;
     }
 
     public function generateController()
@@ -76,6 +128,46 @@ class LaravelApiGenerator
         return $this->result;
     }
 
+    public function generateStoreRequest()
+    {
+        $this->result = false;
+        if (! file_exists(base_path('app/Http/Requests/'.$this->model.'/Store'.$this->model.'Request.php'))) {
+            $model = is_dir(base_path('app/Models')) ? app('App\\Models\\'.$this->model) : app('App\\'.$this->model);
+            $columns = $model->getConnection()->getSchemaBuilder()->getColumnListing($model->getTable());
+            $print_columns = null;
+            foreach ($columns as $key => $column) {
+                $print_columns .= "'".$column."'".' =>  [\'required\'], '."\n \t\t\t";
+            }
+            $template = self::getStubContents('StoreRequest.stub');
+            $template = str_replace('{{modelName}}', $this->model, $template);
+            $template = str_replace('{{columns}}', $print_columns, $template);
+            file_put_contents(base_path('app/Http/Requests/'.$this->model.'/Store'.$this->model.'Request.php'), $template);
+            $this->result = true;
+        }
+
+        return $this->result;
+    }
+
+    public function generateUpdateRequest()
+    {
+        $this->result = false;
+        if (! file_exists(base_path('app/Http/Requests/'.$this->model.'/Update'.$this->model.'Request.php'))) {
+            $model = is_dir(base_path('app/Models')) ? app('App\\Models\\'.$this->model) : app('App\\'.$this->model);
+            $columns = $model->getConnection()->getSchemaBuilder()->getColumnListing($model->getTable());
+            $print_columns = null;
+            foreach ($columns as $key => $column) {
+                $print_columns .= "'".$column."'".' =>  [\'required\'], '."\n \t\t\t";
+            }
+            $template = self::getStubContents('UpdateRequest.stub');
+            $template = str_replace('{{modelName}}', $this->model, $template);
+            $template = str_replace('{{columns}}', $print_columns, $template);
+            file_put_contents(base_path('app/Http/Requests/'.$this->model.'/Update'.$this->model.'Request.php'), $template);
+            $this->result = true;
+        }
+
+        return $this->result;
+    }
+
     public function generateCollection()
     {
         $this->result = false;
@@ -85,7 +177,6 @@ class LaravelApiGenerator
             file_put_contents(base_path('app/Http/Resources/'.$this->model.'Collection.php'), $template);
             $this->result = true;
         }
-
         return $this->result;
     }
 

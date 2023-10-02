@@ -1,14 +1,18 @@
 <?php
-
 namespace App\Http\Controllers\Api;
 
+use Illuminate\Http\Request;
+use App\Constants\AuthConstants;
+use App\Constants\Constants;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Store{{modelName}}Request;
+use App\Http\Requests\Update{{modelName}}Request;
+use App\{{modelNameSpace}};
+use App\Http\Resources\Resource;
+use App\Http\Traits\Access;
+use App\Http\Traits\HttpResponses;
 use Exception;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
-use App\{{modelNameSpace}};
-use App\Http\Resources\{{modelName}}Resource;
-use App\Http\Resources\{{modelName}}Collection;
 
 class {{modelName}}Controller extends Controller
 {
@@ -18,9 +22,16 @@ class {{modelName}}Controller extends Controller
      * @param Request $request
      * @return {{modelName}}Collection
      */
-    public function index(Request $request)
+    public function index(Request $request): JsonResponse
     {
-        return new {{modelName}}Collection({{modelName}}::all());
+        $limit = $request->has('limit') ? $request->limit : 15;
+        $data={{modelName}}::paginate($limit);
+        $collectionData= Resource::collection($data)->response()->getData();
+        if($collectionData){           
+            return $this->success($collectionData, Constants::GETALL, 200,true); 
+        }else{             
+            return $this->error('',Constants::NODATA, 404,false);    
+        }
     }
 
     /**
@@ -28,12 +39,19 @@ class {{modelName}}Controller extends Controller
      *
      * @param Request $request
      * @return {{modelName}}Resource
-     */
-    public function store(Request $request)
+     */    
+    public function store(Store{{modelName}}Request $request): JsonResponse
     {
-        $requestData = $request->all();
-        ${{modelNameCamel}} = {{modelName}}::create($requestData);
-        return (new {{modelName}}Resource(${{modelNameCamel}}))->setMessage('Created!');
+        try {            
+            $data = {{modelName}}::create($request->all());
+            return $this->success(
+                new Resource($data),
+                Constants::STORE,
+                201,true
+            );
+        }catch(Exception $exception) {
+            return $this->error('', Constants::FAILSTORE, 404,false);
+        }
     }
 
     /**
@@ -42,9 +60,17 @@ class {{modelName}}Controller extends Controller
      * @param {{modelName}} ${{modelNameCamel}}
      * @return {{modelName}}Resource
      */
-    public function show({{modelName}} ${{modelNameCamel}})
-    {
-        return new {{modelName}}Resource(${{modelNameCamel}});
+     public function show({{modelName}} ${{modelNameCamel}}): JsonResponse
+    {      
+        try {           
+            if(${{modelNameCamel}}){           
+                return $this->success(new Resource(${{modelNameCamel}}), Constants::GETALL, 200,true); 
+            }else{             
+                return $this->error('',Constants::NODATA, 404,false); 
+            } 
+        } catch (\Throwable $th) {
+            return $this->error('',$th, 404,false); 
+        }
     }
 
     /**
@@ -54,11 +80,14 @@ class {{modelName}}Controller extends Controller
      * @param {{modelName}} ${{modelNameCamel}}
      * @return {{modelName}}Resource
      */
-    public function update(Request $request, {{modelName}} ${{modelNameCamel}})
+    public function update(Update{{modelName}}Request $request, {{modelName}} ${{modelNameCamel}})
     {
-        $requestData = $request->all();
-        ${{modelNameCamel}}->update($requestData);
-        return (new {{modelName}}Resource(${{modelNameCamel}}))->setMessage('Updated!');
+        try {           
+            ${{modelNameCamel}}->update($request->all());
+            return $this->success(new Resource(${{modelNameCamel}}), Constants::UPDATE, 201,true);         
+        }catch(Exception $exception) {
+            return $this->error('', $exception->getMessage(), 404,false);          
+        }
     }
 
     /**
@@ -67,15 +96,14 @@ class {{modelName}}Controller extends Controller
      * @param {{modelName}} ${{modelNameCamel}}
      * @return JsonResponse
      * @throws Exception
-     */
-    public function destroy({{modelName}} ${{modelNameCamel}})
+     */   
+    public function destroy({{modelName}} ${{modelNameCamel}}): JsonResponse
     {
-        ${{modelNameCamel}}->delete();
-        return response()->json([
-            'success' => true,
-            'message' => 'Deleted!',
-            'meta' => null,
-            'errors' => null
-        ], 200);
+        try {           
+            ${{modelNameCamel}}->delete();           
+            return $this->success('', Constants::DESTROY, 200,true);         
+        }catch(Exception $exception) {
+            return $this->error('', $exception->getMessage(), 404,false);          
+        }
     }
 }
