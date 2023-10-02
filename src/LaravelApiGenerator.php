@@ -106,27 +106,7 @@ class LaravelApiGenerator
         }
 
         return $this->result;
-    }
-
-    public function generateResource()
-    {
-        $this->result = false;
-        if (! file_exists(base_path('app/Http/Resources/'.$this->model.'Resource.php'))) {
-            $model = is_dir(base_path('app/Models')) ? app('App\\Models\\'.$this->model) : app('App\\'.$this->model);
-            $columns = $model->getConnection()->getSchemaBuilder()->getColumnListing($model->getTable());
-            $print_columns = null;
-            foreach ($columns as $key => $column) {
-                $print_columns .= "'".$column."'".' => $this->'.$column.', '."\n \t\t\t";
-            }
-            $template = self::getStubContents('resource.stub');
-            $template = str_replace('{{modelName}}', $this->model, $template);
-            $template = str_replace('{{columns}}', $print_columns, $template);
-            file_put_contents(base_path('app/Http/Resources/'.$this->model.'Resource.php'), $template);
-            $this->result = true;
-        }
-
-        return $this->result;
-    }
+    }    
 
     public function generateStoreRequest()
     {
@@ -174,19 +154,7 @@ class LaravelApiGenerator
         }
 
         return $this->result;
-    }
-
-    public function generateCollection()
-    {
-        $this->result = false;
-        if (! file_exists(base_path('app/Http/Resources/'.$this->model.'Collection.php'))) {
-            $template = self::getStubContents('collection.stub');
-            $template = str_replace('{{modelName}}', $this->model, $template);
-            file_put_contents(base_path('app/Http/Resources/'.$this->model.'Collection.php'), $template);
-            $this->result = true;
-        }
-        return $this->result;
-    }
+    } 
 
     public function generateRoute()
     {

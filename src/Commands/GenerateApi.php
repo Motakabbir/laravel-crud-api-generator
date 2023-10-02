@@ -71,19 +71,7 @@ class GenerateApi extends Command
             $this->error('Controller Already Exists!');
         }
 
-        $resource = $api->generateResource();
-        if ($resource) {
-            $this->info('Resource Generated SuccessFully!');
-        } else {
-            $this->error('Resource Already Exists!');
-        }
-
-        $collection = $api->generateCollection();
-        if ($collection) {
-            $this->info('Collection Generated SuccessFully!');
-        } else {
-            $this->error('Collection Already Exists!');
-        }
+        
 
         $route = $api->generateRoute();
         if ($route) {
