@@ -19,7 +19,7 @@ class LaravelApiGenerator
     public function generate()
     {
         self::directoryCreate();
-        self::generateBasicFiles()();
+        self::generateBasicFiles();
     }
 
     public function directoryCreate()
