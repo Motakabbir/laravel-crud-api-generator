@@ -141,6 +141,10 @@ class LaravelApiGenerator
             $template = self::getStubContents('StoreRequest.stub');
             $template = str_replace('{{modelName}}', $this->model, $template);
             $template = str_replace('{{columns}}', $print_columns, $template);
+            
+            if (! file_exists(base_path('app/Http/Requests/'.$this->model))) {
+                mkdir(base_path('app/Http/Requests/'.$this->model));
+            }
             file_put_contents(base_path('app/Http/Requests/'.$this->model.'/Store'.$this->model.'Request.php'), $template);
             $this->result = true;
         }
@@ -161,6 +165,10 @@ class LaravelApiGenerator
             $template = self::getStubContents('UpdateRequest.stub');
             $template = str_replace('{{modelName}}', $this->model, $template);
             $template = str_replace('{{columns}}', $print_columns, $template);
+            
+            if (! file_exists(base_path('app/Http/Requests/'.$this->model))) {
+                mkdir(base_path('app/Http/Requests/'.$this->model));
+            }
             file_put_contents(base_path('app/Http/Requests/'.$this->model.'/Update'.$this->model.'Request.php'), $template);
             $this->result = true;
         }
