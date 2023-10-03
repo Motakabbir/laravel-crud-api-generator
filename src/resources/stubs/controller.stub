@@ -16,6 +16,8 @@ use Illuminate\Http\JsonResponse;
 
 class {{modelName}}Controller extends Controller
 {
+    use Access;
+    use HttpResponses;
     /**
      * Display a listing of the resource.
      *

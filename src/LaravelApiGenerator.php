@@ -159,7 +159,7 @@ class LaravelApiGenerator
     public function generateRoute()
     {
         $this->result = false;
-        if (app()->version() >= 8) {
+        if ((int)app()->version() >= 8) {
             $nameSpace = "\nuse App\Http\Controllers\Api\{{modelName}}Controller;";
             $template = "Route::apiResource('{{modelNameLower}}', {{modelName}}Controller::class);\n";
             $nameSpace = str_replace('{{modelName}}', $this->model, $nameSpace);
