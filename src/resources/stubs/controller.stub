@@ -11,6 +11,7 @@ use App\{{modelNameSpace}};
 use App\Http\Resources\Resource;
 use App\Http\Traits\Access;
 use App\Http\Traits\HttpResponses;
+use App\Http\Traits\Helper;
 use Exception;
 use Illuminate\Http\JsonResponse;
 
@@ -18,6 +19,7 @@ class {{modelName}}Controller extends Controller
 {
     use Access;
     use HttpResponses;
+    use Helper;
     /**
      * Display a listing of the resource.
      *
@@ -26,6 +28,10 @@ class {{modelName}}Controller extends Controller
      */
     public function index(Request $request): JsonResponse
     {
+        $permission= $this->hasrolePermition($request,'view');      
+        if($permission->status=='false'){
+           return  $this->error('', Constants::ACCESSERROR, 404, false);
+        }
         $limit = $request->has('limit') ? $request->limit : 15;
         $data={{modelName}}::paginate($limit);
         $collectionData= Resource::collection($data)->response()->getData();
@@ -44,7 +50,11 @@ class {{modelName}}Controller extends Controller
      */    
     public function store(Store{{modelName}}Request $request): JsonResponse
     {
-        try {            
+        try {  
+            $permission= $this->hasrolePermition($request,'add');      
+            if($permission->status=='false'){
+                return  $this->error('', Constants::ACCESSERROR, 404, false);
+            }          
             $data = {{modelName}}::create($request->all());
             return $this->success(
                 new Resource($data),
@@ -62,9 +72,13 @@ class {{modelName}}Controller extends Controller
      * @param {{modelName}} ${{modelNameCamel}}
      * @return {{modelName}}Resource
      */
-     public function show({{modelName}} ${{modelNameCamel}}): JsonResponse
+     public function show({{modelName}} ${{modelNameCamel}},Request $request): JsonResponse
     {      
-        try {           
+        try {    
+            $permission= $this->hasrolePermition($request,'edit');      
+            if($permission->status=='false'){
+                return  $this->error('', Constants::ACCESSERROR, 404, false);
+            }       
             if(${{modelNameCamel}}){           
                 return $this->success(new Resource(${{modelNameCamel}}), Constants::GETALL, 200,true); 
             }else{             
@@ -84,7 +98,11 @@ class {{modelName}}Controller extends Controller
      */
     public function update(Update{{modelName}}Request $request, {{modelName}} ${{modelNameCamel}})
     {
-        try {           
+        try {  
+            $permission= $this->hasrolePermition($request,'edit');      
+            if($permission->status=='false'){
+                return  $this->error('', Constants::ACCESSERROR, 404, false);
+            }         
             ${{modelNameCamel}}->update($request->all());
             return $this->success(new Resource(${{modelNameCamel}}), Constants::UPDATE, 201,true);         
         }catch(Exception $exception) {
@@ -99,9 +117,13 @@ class {{modelName}}Controller extends Controller
      * @return JsonResponse
      * @throws Exception
      */   
-    public function destroy({{modelName}} ${{modelNameCamel}}): JsonResponse
+    public function destroy({{modelName}} ${{modelNameCamel}},Request $request): JsonResponse
     {
-        try {           
+        try {
+            $permission= $this->hasrolePermition($request,'delete');      
+            if($permission->status=='false'){
+                return  $this->error('', Constants::ACCESSERROR, 404, false);
+            }           
             ${{modelNameCamel}}->delete();           
             return $this->success('', Constants::DESTROY, 200,true);         
         }catch(Exception $exception) {
